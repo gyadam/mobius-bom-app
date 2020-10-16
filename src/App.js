@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import "../src/css/table.css";
+import "../src/css/spinner.css";
+import ClipLoader from "react-spinners/ClipLoader";
+
 import { createServer, Model } from "miragejs";
 const mockData = require('./mock-data.json');
 
@@ -37,7 +40,8 @@ createServer({
 
 
 function App() {
-  let [bom, setBom] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [bom, setBom] = useState([]);
 
   useEffect(() => {
     // example PUT request
@@ -69,29 +73,33 @@ function App() {
       fetch("mobiusmaterials.com/api/v1/bom/1001")
       .then((response) => response.json())
       .then((json) => setBom(json.bomItems))
+      .then(() => setLoading(false))
     )  
   }, [])
   
   return (
     <div className="App">
-      <table className="bom-list-table">
-        <thead>
-          <tr>
-            <th>Part</th>
-            <th>Quantity</th>
-            <th>Item unit cost</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bom.map(item => (
-            <tr key={item.pk}>
-              <td>{item.fields.specific_part}</td>
-              <td>{item.fields.quantity}</td>
-              <td>{item.fields.item_unit_cost}</td>
+      {loading ?
+        <div className="spinner-container"><ClipLoader color="#0ab1a8"></ClipLoader></div> :
+        <table className="bom-list-table">
+          <thead>
+            <tr>
+              <th>Part</th>
+              <th>Quantity</th>
+              <th>Item unit cost</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {bom.map(item => (
+              <tr key={item.pk}>
+                <td>{item.fields.specific_part}</td>
+                <td>{item.fields.quantity}</td>
+                <td>{item.fields.item_unit_cost}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      }
     </div>
   )
 }
