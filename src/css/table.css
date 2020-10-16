@@ -1,3 +1,11 @@
+.table-container{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
 .bom-list-table{
     border-collapse: collapse;
     margin: 25px;
@@ -5,10 +13,6 @@
     border-radius: 5px 5px 0px 0px;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .bom-list-table thead tr{
@@ -21,6 +25,7 @@
 .bom-list-table th,
 .bom-list-table td{
     padding: 12px 15px;
+    border: none;
 }
 
 .bom-list-table tbody tr{
@@ -38,4 +43,18 @@
 .bom-list-table tbody tr.active-row{
     font-weight: bold;
     color: #0ab1a8;
+}
+
+.table-container button{
+    border: none;
+    border-radius: 2px;
+    background-color: #0ab1a8;
+    color: white;
+    font-weight: bold;
+    padding: 10px 12px;
+    text-decoration: none;
+}
+
+.table-container button:hover{
+    cursor: pointer;
 }

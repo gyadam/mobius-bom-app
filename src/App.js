@@ -42,6 +42,8 @@ createServer({
 function App() {
   const [loading, setLoading] = useState(true);
   const [bom, setBom] = useState([]);
+  const [buttonText, setButtonText] = useState("Edit");
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     // example PUT request
@@ -76,29 +78,62 @@ function App() {
       .then(() => setLoading(false))
     )  
   }, [])
+
+  const toggleEdit = (e) => {
+    e.target.blur();
+    if(!editMode){
+      setButtonText("Save");
+      setEditMode(true);
+    } else{
+      setButtonText("Edit");
+      setEditMode(false);
+    } 
+  }
+
+  const handleChange = (e) => {
+    const pk = parseInt(e.target.parentNode.parentNode.id);
+    const newBom = bom.map((item) => {
+      if (item.pk === pk) {
+        const updatedItem = {
+          ...item,
+          fields: {
+            ...item.fields,
+            [e.target.name]: e.target.value
+          },
+        };
+        return updatedItem;
+      }
+      return item;
+    });
+
+    setBom(newBom);
+  }
   
   return (
     <div className="App">
       {loading ?
         <div className="spinner-container"><ClipLoader color="#0ab1a8"></ClipLoader></div> :
-        <table className="bom-list-table">
-          <thead>
-            <tr>
-              <th>Part</th>
-              <th>Quantity</th>
-              <th>Item unit cost</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bom.map(item => (
-              <tr key={item.pk}>
-                <td>{item.fields.specific_part}</td>
-                <td>{item.fields.quantity}</td>
-                <td>{item.fields.item_unit_cost}</td>
+        <div className="table-container">
+          <table className="bom-list-table">
+            <thead>
+              <tr>
+                <th>Part</th>
+                <th>Quantity</th>
+                <th>Item unit cost</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {bom.map(item => (
+                <tr key={item.pk} id={item.pk}>
+                  {editMode ? <td><input type="text" name="specific_part" onChange={handleChange} defaultValue={item.fields.specific_part}/></td> : <td>{item.fields.specific_part}</td> }
+                  {editMode ? <td><input type="text" name="quantity" onChange={handleChange} defaultValue={item.fields.quantity}/></td> : <td>{item.fields.quantity}</td> }
+                  {editMode ? <td><input type="text" name="item_unit_cost" onChange={handleChange} defaultValue={item.fields.item_unit_cost}/></td> : <td>{item.fields.item_unit_cost}</td> }
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button onClick={(e) => toggleEdit(e)} contentEditable={false}>{buttonText}</button>
+        </div>
       }
     </div>
   )
