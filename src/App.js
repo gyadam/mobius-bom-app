@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import "../src/css/table.css";
 import { createServer, Model } from "miragejs";
 const mockData = require('./mock-data.json');
 
@@ -73,19 +74,23 @@ function App() {
   
   return (
     <div className="App">
-      <table>
-        <tr>
-          <th>Part</th>
-          <th>Quantity</th>
-          <th>Item unit cost</th>
-        </tr>
-        {bom.map(item => (
-          <tr key={item.pk}>
-            <td>{item.fields.specific_part}</td>
-            <td>{item.fields.quantity}</td>
-            <td>{item.fields.item_unit_cost}</td>
+      <table className="bom-list-table">
+        <thead>
+          <tr>
+            <th>Part</th>
+            <th>Quantity</th>
+            <th>Item unit cost</th>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {bom.map(item => (
+            <tr key={item.pk}>
+              <td>{item.fields.specific_part}</td>
+              <td>{item.fields.quantity}</td>
+              <td>{item.fields.item_unit_cost}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   )

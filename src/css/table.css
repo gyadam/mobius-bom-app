@@ -1,0 +1,41 @@
+.bom-list-table{
+    border-collapse: collapse;
+    margin: 25px;
+    min-width: 400px;
+    border-radius: 5px 5px 0px 0px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bom-list-table thead tr{
+    background-color: #0ab1a8;
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+.bom-list-table th,
+.bom-list-table td{
+    padding: 12px 15px;
+}
+
+.bom-list-table tbody tr{
+    border-bottom: 1px solid #ddd;
+}
+
+.bom-list-table tbody tr:nth-of-type(even){
+    background-color: #f3f3f3;
+}
+
+.bom-list-table tbody tr:last-of-type{
+    border-bottom: 2px solid #0ab1a8;
+}
+
+.bom-list-table tbody tr.active-row{
+    font-weight: bold;
+    color: #0ab1a8;
+}
