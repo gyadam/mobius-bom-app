@@ -46,37 +46,10 @@ function App() {
   const [rowInEdit, setRowInEdit] = useState(-1);
 
   useEffect(() => {
-    // example PUT request
-    // fetch("mobiusmaterials.com/api/v1/bom/1001/bomitem/10001", {
-    //   method: 'PUT',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   pk: 10001,
-    //   body: JSON.stringify(
-    //       {
-    //         "model":"core.bomitem",
-    //         "pk":10001,
-    //         "fields":{
-    //            "uuid":"0b1ee8c4-03bd-4fd8-a016-226dba25f0f6",
-    //            "created_at":"2020-08-27T00:38:01.689Z",
-    //            "updated_at":"2020-08-27T00:38:01.689Z",
-    //            "is_active":true,
-    //            "bom":1001,
-    //            "quantity":7,
-    //            "specific_part":10004,
-    //            "item_unit_cost":"0.3000"
-    //         }
-    //      }
-    //   ),
-    // })
-    // .then
-    (
       fetch("mobiusmaterials.com/api/v1/bom/1001")
       .then((response) => response.json())
       .then((json) => setBom(json.bomItems))
       .then(() => setLoading(false))
-    )  
   }, [])
 
   const toggleEdit = (e) => {

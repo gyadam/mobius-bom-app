@@ -24,9 +24,16 @@ const EditableRow = ({initialValues, toggleEdit, bom, setBom}) => {
             return item;
         });
 
-        setBom(newBom);
-        
-        toggleEdit(e);
+        fetch(`mobiusmaterials.com/api/v1/bom/1001/bomitem/${pk}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            pk: pk,
+            body: JSON.stringify(
+                bomItem
+            ),
+        }).then(setBom(newBom)).then(toggleEdit(e));
     }
 
     const cancelChanges = (e) => {
