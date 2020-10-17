@@ -4,37 +4,50 @@ import "../src/css/spinner.css";
 import ClipLoader from "react-spinners/ClipLoader";
 import EditableRow from './components/EditableRow'
 
-import { createServer, Model } from "miragejs";
-const mockData = require('./mock-data.json');
+import { createServer, Model, RestSerializer } from "miragejs";
 
-// Mock server for API calls with Mirage JS
+// start mock server with mock data, then use sessionStorage to persist state
+const mockData = require('./mock-data.json');
+const sessionData = JSON.parse(sessionStorage.getItem("mockData"));
+const data = sessionData ? sessionData.bomItems : mockData.bom;
+
+// mock server for API calls with Mirage JS
 createServer({
 
   models: {
     bomItem: Model
   },
 
+  serializers: {
+    application: RestSerializer,
+  },
+
   seeds(server) {
-    server.schema.bomItems.create(mockData.bom[0]);
-    server.schema.bomItems.create(mockData.bom[1]);
-    server.schema.bomItems.create(mockData.bom[2]);
-    server.schema.bomItems.create(mockData.bom[3]);
+    server.schema.bomItems.create(data[0]);
+    server.schema.bomItems.create(data[1]);
+    server.schema.bomItems.create(data[2]);
+    server.schema.bomItems.create(data[3]);
   },
 
   routes() {
     this.namespace = "mobiusmaterials.com/api/v1";
 
-    this.get("/bom/1001", (schema, request) => {
+    this.get("/bom/1001", function(schema, request){
       return schema.bomItems.all();
     });
 
-    this.put("/bom/1001/bomitem/:id", (schema, request) => {
+    this.put("/bom/1001/bomitem/:id", function(schema, request){
       let pk = request.params.id;
       let attrs = JSON.parse(request.requestBody);
       let bomitem = schema.bomItems.findBy({
         pk: pk
       });
-      return bomitem.update(attrs);
+      const updatedBomitem = bomitem.update(attrs);
+
+      const json = JSON.stringify(this.serialize(schema.bomItems.all()));
+      sessionStorage.setItem("mockData", json);
+
+      return updatedBomitem;
     });
   },
 })
