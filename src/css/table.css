@@ -3,7 +3,6 @@
     top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
-    text-align: center;
 }
 
 .bom-list-table{
@@ -51,10 +50,20 @@
     background-color: #0ab1a8;
     color: white;
     font-weight: bold;
-    padding: 10px 12px;
+    padding: 6px 8px;
     text-decoration: none;
+    margin: 5px;
 }
 
 .table-container button:hover{
     cursor: pointer;
+}
+
+.table-container button:disabled{
+    background-color: rgb(163, 163, 163);
+    cursor: default;
+}
+
+.bom-list-table input{
+    width: 100px;
 }
