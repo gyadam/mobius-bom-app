@@ -1,19 +1,21 @@
 import React, {useState} from 'react';
 import ClipLoader from "react-spinners/ClipLoader";
 
+
 const EditableRow = ({initialValues, toggleEdit, bom, setBom, index}) => {
 
     const [bomItem, setBomItem] = useState(initialValues);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
 
     const handleChanges = (e) => {
         let inpVal = e.target.value;
         if(e.target.name === "item_unit_cost"){
-            inpVal = parseFloat(inpVal).toFixed(4);
+            inpVal = parseFloat(inpVal).toFixed(4); // unit cost always 4 decimals
         } else if(e.target.name === "quantity"){
-            inpVal = parseInt(inpVal, 10);
+            inpVal = parseInt(inpVal, 10);          // quantity always 0 decimal integer
         }
+
+        // update current field + "updated_at" field
         const updatedItem = {
             ...bomItem,
             fields: {
@@ -27,7 +29,6 @@ const EditableRow = ({initialValues, toggleEdit, bom, setBom, index}) => {
 
     function handleErrors(response) {
         if (!response.ok) {
-            setError(true);
             setLoading(false);
             alert(`The following error occured while updating the BOM: ${response.status} ${response.statusText}`);
             throw Error(response.statusText);
@@ -36,7 +37,7 @@ const EditableRow = ({initialValues, toggleEdit, bom, setBom, index}) => {
     }
 
     async function saveChanges(e){
-        e.persist()
+        e.persist();
         e.preventDefault();
         setLoading(true);
 
@@ -60,12 +61,11 @@ const EditableRow = ({initialValues, toggleEdit, bom, setBom, index}) => {
                 ),
             });
             handleErrors(response);
-            setBom(newBom);
+            setBom(newBom); // set app Bom state only if successfully saved
             setLoading(false);
             toggleEdit(e);
         }
         catch(error){
-          setError(true);
           alert(`The following error occured while updating the BOM: ${error}`);
           setLoading(false);
         }
@@ -84,11 +84,15 @@ const EditableRow = ({initialValues, toggleEdit, bom, setBom, index}) => {
             <td><input type="number" min="0" step="0.0001" form="row-form" name="item_unit_cost" required onChange={handleChanges} defaultValue={bomItem.fields.item_unit_cost}/></td>
             <td className="button-cell">
                 {loading ?
+
+                // saving spinner + cancel button
                 [<span className="button-spinner">
                     <ClipLoader size={20} color={"#0ab1a8"}/>
                 </span>,
                 <button key="cancel" onClick={cancelChanges}>Cancel</button>
                 ] :
+
+                // save + cancel button
                 [
                     <input key="save" type="submit" form="row-form" value="Save"/>,
                     <button key="cancel" onClick={cancelChanges}>Cancel</button>

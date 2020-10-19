@@ -61,7 +61,7 @@ function App() {
   const [bom, setBom] = useState([]);
   const [rowInEdit, setRowInEdit] = useState(-1);
   const [error, setError] = useState(false);
-  const [bomID, setBomID] = useState(1001);
+  const bomID = 1001;
 
   function handleErrors(response) {
     if (!response.ok) {
@@ -88,11 +88,14 @@ function App() {
       }
     }
 
+    // load data on app start
     loadBomData();
-  }, [])
+  }, [bomID])
 
   const toggleEdit = (e) => {
-    e.target.blur();
+    e.target.blur(); // remove focus border
+
+    // set currently edited row (-1 if not editing)
     if (parseInt(e.target.parentNode.parentNode.id) === rowInEdit){
       setRowInEdit(-1);
     } else{
@@ -103,7 +106,11 @@ function App() {
   return (
     <div className="App">
       {loading ?
+
+        // loading spinner
         <div className="spinner-container"><ClipLoader color="#0ab1a8"></ClipLoader></div> :
+
+        // main content
         <div>
           <h1 className="page-title">Bill of materials</h1>
           <h3 className="bom-id">BOM ID: {1001}</h3>
@@ -121,10 +128,16 @@ function App() {
               </thead>
               <tbody>
                 {error ?
+
+                // display error message in table
                 <tr><td colSpan={4} className="error-text">Oops! An error occured</td></tr> :
+
+                // create table from BOM
                 bom.map((item, index) => (
                   rowInEdit === item.pk ?
-                    <EditableRow initialValues={item} toggleEdit={toggleEdit} bom={bom} setBom={setBom} key={item.pk} index={index}/>:
+                    // edit mode
+                    <EditableRow initialValues={item} toggleEdit={toggleEdit} bom={bom} setBom={setBom} key={item.pk} index={index}/> :
+                    // view mode
                     <tr key={item.pk} id={item.pk}>
                       <td></td>
                       <td>{index + 1}</td>
