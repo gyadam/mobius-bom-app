@@ -57,12 +57,35 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [bom, setBom] = useState([]);
   const [rowInEdit, setRowInEdit] = useState(-1);
+  const [error, setError] = useState(false);
+  const [bomID, setBomID] = useState(1001);
 
+  function handleErrors(response) {
+    if (!response.ok) {
+      setError(true);
+      setLoading(false);
+      throw Error(response.statusText);
+    }
+    return response;
+  }
+
+  
   useEffect(() => {
-      fetch("mobiusmaterials.com/api/v1/bom/1001")
-      .then((response) => response.json())
-      .then((json) => setBom(json.bomItems))
-      .then(() => setLoading(false))
+    async function loadBomData(){
+      try{
+        const response = await fetch(`mobiusmaterials.com/api/v1/bom/${bomID}`);
+        handleErrors(response);
+        const data = await response.json();
+        setBom(data.bomItems);
+        setLoading(false);
+      }
+      catch(error){
+        setError(true);
+        setLoading(false);
+      }
+    }
+
+    loadBomData();
   }, [])
 
   const toggleEdit = (e) => {
@@ -78,29 +101,38 @@ function App() {
     <div className="App">
       {loading ?
         <div className="spinner-container"><ClipLoader color="#0ab1a8"></ClipLoader></div> :
-        <div className="table-container">
-          <table className="bom-list-table">
-            <thead>
-              <tr>
-                <th>Part</th>
-                <th>Quantity</th>
-                <th>Item unit cost</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {bom.map(item => (
-                rowInEdit === item.pk ?
-                  <EditableRow initialValues={item} toggleEdit={toggleEdit} bom={bom} setBom={setBom} key={item.pk}/>:
-                  <tr key={item.pk} id={item.pk}>
-                    <td>{item.fields.specific_part}</td>
-                    <td>{item.fields.quantity}</td>
-                    <td>{item.fields.item_unit_cost}</td>
-                    <td><button onClick={(e) => toggleEdit(e)} disabled={rowInEdit === item.pk || rowInEdit === -1 ? false : true}>Edit</button></td>
-                  </tr>
-              ))}
-            </tbody>
-          </table>
+        <div>
+          <h1 className="page-title">Bill of materials</h1>
+          <h3 className="bom-id">BOM ID: {1001}</h3>
+          <div className="table-container">
+            <table className="bom-list-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Part number</th>
+                  <th>Quantity</th>
+                  <th>Item unit cost</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {error ?
+                <tr><td colSpan={4} className="error-text">Oops! An error occured</td></tr> :
+                bom.map(item => (
+                  rowInEdit === item.pk ?
+                    <EditableRow initialValues={item} toggleEdit={toggleEdit} bom={bom} setBom={setBom} key={item.pk}/>:
+                    <tr key={item.pk} id={item.pk}>
+                      <td></td>
+                      <td>{item.fields.specific_part}</td>
+                      <td>{item.fields.quantity}</td>
+                      <td>{item.fields.item_unit_cost}</td>
+                      <td><button onClick={(e) => toggleEdit(e)} disabled={rowInEdit === item.pk || rowInEdit === -1 ? false : true}>Edit</button></td>
+                    </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <h5 className="footer-text">Made with <span role="img" aria-label="react-icon">⚛️</span> by Adam Gyarmati</h5>
         </div>
       }
     </div>
