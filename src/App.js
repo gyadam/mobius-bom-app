@@ -3,7 +3,7 @@ import "../src/css/app.css";
 import "../src/css/table.css";
 import "../src/css/spinner.css";
 import ClipLoader from "react-spinners/ClipLoader";
-import EditableRow from './components/EditableRow'
+import EditableRow from './components/EditableRow';
 
 import { createServer, Model, RestSerializer } from "miragejs";
 
