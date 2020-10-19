@@ -1,17 +1,17 @@
 .table-container{
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-top: 200px;
+    margin: auto;
+    text-align: center;
 }
 
 .bom-list-table{
     border-collapse: collapse;
-    margin: 25px;
+    margin: 50px auto;
     min-width: 400px;
     border-radius: 5px 5px 0px 0px;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border: none;
 }
 
 .bom-list-table thead tr{
@@ -24,7 +24,8 @@
 .bom-list-table th,
 .bom-list-table td{
     padding: 12px 15px;
-    border: none;
+    border: 1px solid #ddd;
+    text-align: center;
 }
 
 .bom-list-table tbody tr{
@@ -44,7 +45,8 @@
     color: #0ab1a8;
 }
 
-.table-container button{
+.table-container button,
+input[type="submit"]{
     border: none;
     border-radius: 2px;
     background-color: #0ab1a8;
@@ -53,9 +55,11 @@
     padding: 6px 8px;
     text-decoration: none;
     margin: 5px;
+    width: 70px;
 }
 
-.table-container button:hover{
+.table-container button:hover,
+.table-container input:hover{
     cursor: pointer;
 }
 
@@ -64,6 +68,29 @@
     cursor: default;
 }
 
-.bom-list-table input{
+.bom-list-table input:not([type="submit"]){
     width: 100px;
+}
+
+.error-text{
+    text-align: center;
+    color: red;
+}
+
+.bom-list-table tr > *:nth-child(1) {
+    display: none;
+}
+
+.button-spinner{
+    margin: 5px;
+    width: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+td.button-cell{
+    display: flex;
+    border: none;
 }

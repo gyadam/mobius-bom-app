@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import "../src/css/app.css";
 import "../src/css/table.css";
 import "../src/css/spinner.css";
 import ClipLoader from "react-spinners/ClipLoader";
