@@ -18,7 +18,8 @@ const EditableRow = ({initialValues, toggleEdit, bom, setBom}) => {
             ...bomItem,
             fields: {
               ...bomItem.fields,
-              [e.target.name]: inpVal
+              [e.target.name]: inpVal,
+              updated_at: new Date()
             },
         };
         setBomItem(updatedItem);
