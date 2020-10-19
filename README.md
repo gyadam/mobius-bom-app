@@ -9,7 +9,10 @@ The application is live at:
 #### https://mobius-bom-app.herokuapp.com
 
 You should see something like this:
-![Screenshot of the BOM app](/images/bom-app-screenshot.png "Screenshot of Mobius BOM app")
+
+<kbd>
+  <img src="/images/bom-app-screenshot.png" alt-text="Screenshot of the BOM app" width=600>
+</kbd>
 
 Tech:
 * React for the frontend UI
