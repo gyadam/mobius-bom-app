@@ -50,6 +50,8 @@ createServer({
 
       return updatedBomitem;
     });
+
+    this.passthrough();
   },
 })
 
