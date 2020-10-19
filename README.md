@@ -14,7 +14,7 @@ You should see something like this:
   <img src="/images/bom-app-screenshot.png" alt-text="Screenshot of the BOM app" width=600>
 </kbd>
 
-Tech:
+### Tech:
 * React for the frontend UI
 * Mirage JS for the mock API
 
