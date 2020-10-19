@@ -112,6 +112,7 @@ function App() {
               <thead>
                 <tr>
                   <th></th>
+                  <th>#</th>
                   <th>Part number</th>
                   <th>Quantity</th>
                   <th>Item unit cost</th>
@@ -121,11 +122,12 @@ function App() {
               <tbody>
                 {error ?
                 <tr><td colSpan={4} className="error-text">Oops! An error occured</td></tr> :
-                bom.map(item => (
+                bom.map((item, index) => (
                   rowInEdit === item.pk ?
-                    <EditableRow initialValues={item} toggleEdit={toggleEdit} bom={bom} setBom={setBom} key={item.pk}/>:
+                    <EditableRow initialValues={item} toggleEdit={toggleEdit} bom={bom} setBom={setBom} key={item.pk} index={index}/>:
                     <tr key={item.pk} id={item.pk}>
                       <td></td>
+                      <td>{index + 1}</td>
                       <td>{item.fields.specific_part}</td>
                       <td>{item.fields.quantity}</td>
                       <td>{item.fields.item_unit_cost}</td>

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import ClipLoader from "react-spinners/ClipLoader";
 
-const EditableRow = ({initialValues, toggleEdit, bom, setBom}) => {
+const EditableRow = ({initialValues, toggleEdit, bom, setBom, index}) => {
 
     const [bomItem, setBomItem] = useState(initialValues);
     const [loading, setLoading] = useState(false);
@@ -78,6 +78,7 @@ const EditableRow = ({initialValues, toggleEdit, bom, setBom}) => {
     return(
         <tr key={initialValues.pk} id={initialValues.pk}>
             <td><form id="row-form" onSubmit={saveChanges}></form></td>
+            <td>{index + 1}</td>
             <td><input type="text" form="row-form" name="specific_part" required onChange={handleChanges} defaultValue={bomItem.fields.specific_part}/></td>
             <td><input type="number" min="0" form="row-form" name="quantity" required onChange={handleChanges} defaultValue={bomItem.fields.quantity}/></td>
             <td><input type="number" min="0" step="0.0001" form="row-form" name="item_unit_cost" required onChange={handleChanges} defaultValue={bomItem.fields.item_unit_cost}/></td>
